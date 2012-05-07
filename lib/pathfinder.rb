@@ -1,5 +1,5 @@
 require "pathfinder/version"
+require "pathfinder/grid"
 
 module Pathfinder
-  # Your code goes here...
 end
