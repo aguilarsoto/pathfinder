@@ -8,5 +8,9 @@ module Pathfinder
       @rovers = []
     end
 
+    def valid_position?(rover)
+     rover.x >= 0 && rover.x < length &&
+     rover.y >= 0 && rover.y < size
+    end
   end
 end

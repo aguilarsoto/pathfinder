@@ -37,7 +37,7 @@ describe Pathfinder::Rover do
 
   describe "stub valid_position" do
     before :each do  
-      @grid.stub(:valid_position).and_return(true)
+      @grid.stub(:valid_position?).and_return(true)
     end
   
     it 'should properly move to the North' do
@@ -83,5 +83,11 @@ describe Pathfinder::Rover do
       @rover.move
       @rover.y.should == 2
     end
+  end
+
+  it "should raise an error on invalid positions" do
+    @rover.rotate('L')
+    6.times { @rover.move }
+    expect { @rover.move }.to raise_error(Pathfinder::InvalidPositionError)
   end
 end

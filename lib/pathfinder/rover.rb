@@ -1,9 +1,5 @@
 module Pathfinder
   class InvalidPositionError < Exception
-    attr_reader :rover
-    def initialize(rover)
-      @rover = rover
-    end
   end
 
   class Rover
@@ -28,8 +24,8 @@ module Pathfinder
       when 'W'
         @y-=1
       end
-      unless @grid.valid_position(self)
-        raise InvalidPositionError.new(self)
+      unless @grid.valid_position?(self)
+        raise InvalidPositionError
       end
     end
 
