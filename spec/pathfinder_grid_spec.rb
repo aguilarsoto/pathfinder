@@ -23,4 +23,11 @@ describe Pathfinder::Grid do
     rover = Pathfinder::Rover.new(0, 7, 'N', @grid)
     @grid.valid_position?(rover).should be_false
   end
+
+  it "should allow only one rover per position" do
+    rover0 = Pathfinder::Rover.new(2, 2, 'N', @grid)  
+    @grid.rovers<<rover0
+    rover = Pathfinder::Rover.new(2, 2, 'N', @grid)
+    @grid.valid_position?(rover).should be_false
+  end
 end

@@ -90,4 +90,13 @@ describe Pathfinder::Rover do
     6.times { @rover.move }
     expect { @rover.move }.to raise_error(Pathfinder::InvalidPositionError)
   end
+
+  it "should raise an exception when collition happends" do
+    @grid.rovers << Pathfinder::Rover.new(6,0,'N',@grid)
+    @rover.rotate('L')
+    5.times { @rover.move }
+    expect { @rover.move }.to raise_error(Pathfinder::InvalidPositionError)
+
+  end
+  
 end
