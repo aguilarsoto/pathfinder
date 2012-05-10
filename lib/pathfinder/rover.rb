@@ -1,7 +1,4 @@
 module Pathfinder
-  class InvalidPositionError < Exception
-  end
-
   class Rover
     attr_accessor :x, :y, :position
     POSITIONS =['N', 'E', 'S', 'W']
@@ -13,19 +10,41 @@ module Pathfinder
       @grid = grid
     end
 
+    def self.validate_and_create_rover(position_line, grid)
+      if position_line=~/^(\d+)\s+(\d+)\s+(N|S|W|E)\s*$/
+        return self.new($1.to_i, $2.to_i, $3, grid)
+      end
+      raise Pathfinder::InvalidRoverError
+    end
+
+    def validate_and_move(move_line)
+      if move_line =~ /^(R|L|M)+\s*$/
+        move_line.split(//).each do|move_val|
+          if move_val=="M"
+            move
+          else
+            rotate(move_val)
+          end
+        end
+        return true
+      end
+      raise Pathfinder::InvalidPositionError.new(self)
+    end
+
+
     def move
       case @position
       when 'N'
-        @x+=1
-      when 'S'
-        @x-=1
-      when 'E'
         @y+=1
-      when 'W'
+      when 'S'
         @y-=1
+      when 'E'
+        @x+=1
+      when 'W'
+        @x-=1
       end
       unless @grid.valid_position?(self)
-        raise InvalidPositionError
+        raise InvalidPositionError.new(self)
       end
     end
 
@@ -49,6 +68,10 @@ module Pathfinder
       current_location = POSITIONS.index(current_position)
       new_location = current_location-1
       POSITIONS[new_location]
+    end
+
+    def current_position
+      "#{self.x} #{self.y} #{self.position}"
     end
   end
 end

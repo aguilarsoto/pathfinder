@@ -8,9 +8,17 @@ module Pathfinder
       @rovers = []
     end
 
+    def self.validate_and_create_grid(size_line)
+      if size_line=~/^(\d+)\s+(\d+)\s*$/
+        return self.new($1.to_i, $2.to_i)
+      end
+      raise Pathfinder::InvalidGridError
+    end
+
+
     def valid_position?(rover)
-     rover.x >= 0 && rover.x < length &&
-     rover.y >= 0 && rover.y < size && 
+     rover.x >= 0 && rover.x <= length &&
+     rover.y >= 0 && rover.y <= size && 
      no_colitions(rover)
     end
 
